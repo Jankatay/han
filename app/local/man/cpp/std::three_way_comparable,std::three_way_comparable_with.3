@@ -1,0 +1,60 @@
+.TH std::three_way_comparable,std::three_way_comparable_with 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::three_way_comparable,std::three_way_comparable_with \- std::three_way_comparable,std::three_way_comparable_with
+
+.SH Synopsis
+   Defined in header <compare>
+   template< class T, class Cat = std::partial_ordering >
+
+   concept three_way_comparable =
+       __WeaklyEqualityComparableWith<T, T> &&
+       __PartiallyOrderedWith<T, T> &&                               \fB(1)\fP \fI(since C++20)\fP
+       requires(const std::remove_reference_t<T>& a,
+                const std::remove_reference_t<T>& b) {
+           { a <=> b } -> __ComparesAs<Cat>;
+
+       };
+   template< class T, class U, class Cat = std::partial_ordering >
+
+   concept three_way_comparable_with =
+       std::three_way_comparable<T, Cat> &&
+       std::three_way_comparable<U, Cat> &&
+       __ComparisonCommonTypeWith<T, U> &&
+       std::three_way_comparable<
+           std::common_reference_t<
+               const std::remove_reference_t<T>&,                    \fB(2)\fP \fI(since C++20)\fP
+               const std::remove_reference_t<U>&>, Cat> &&
+       __WeaklyEqualityComparableWith<T, U> &&
+       __PartiallyOrderedWith<T, U> &&
+       requires(const std::remove_reference_t<T>& t,
+                const std::remove_reference_t<U>& u) {
+           { t <=> u } -> __ComparesAs<Cat>;
+           { u <=> t } -> __ComparesAs<Cat>;
+
+       };
+   template< class T, class Cat >
+                                                                         (exposition
+   concept __ComparesAs =                                            \fB(3)\fP only*)
+
+       std::same_as<std::common_comparison_category_t<T, Cat>, Cat>;
+
+   1) The concept std::three_way_comparable specifies that the three way comparison
+   operator <=> on T yield results consistent with the comparison category implied by
+   Cat.
+   2) The concept std::three_way_comparable_with specifies that the three way
+   comparison operator <=> on (possibly mixed) T and U operands yield results
+   consistent with the comparison category implied by Cat. Comparing mixed operands
+   yields results equivalent to comparing the operands converted to their common type.
+
+   __WeaklyEqualityComparableWith, __PartiallyOrderedWith, and
+   __ComparisonCommonTypeWith are exposition-only concepts. See descriptions of
+   equality_comparable and totally_ordered.
+
+.SH See also
+
+   equality_comparable      specifies that operator == is an equivalence relation
+   equality_comparable_with (concept)
+   (C++20)
+   totally_ordered          specifies that the comparison operators on the type yield a
+   totally_ordered_with     total order
+   (C++20)                  (concept)

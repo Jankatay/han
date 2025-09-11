@@ -1,0 +1,35 @@
+.TH std::filesystem::directory_entry::operator= 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::filesystem::directory_entry::operator= \- std::filesystem::directory_entry::operator=
+
+.SH Synopsis
+   directory_entry& operator=( const directory_entry& other ) =       \fB(1)\fP \fI(since C++17)\fP
+   default;
+   directory_entry& operator=( directory_entry&& other ) noexcept =   \fB(2)\fP \fI(since C++17)\fP
+   default;
+
+   Replaces the contents of the directory entry (path and cached attributes, if any)
+   with the contents of other.
+
+   Both copy- and move-assignment operators for directory_entry are defaulted.
+
+.SH Parameters
+
+   other - other directory_entry
+
+.SH Return value
+
+   *this
+
+.SH Example
+
+    This section is incomplete
+    Reason: no example
+
+.SH See also
+
+   assign assigns contents
+          \fI(public member function)\fP
+
+.SH Category:
+     * Todo no example

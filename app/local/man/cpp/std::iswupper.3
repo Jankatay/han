@@ -1,0 +1,87 @@
+.TH std::iswupper 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::iswupper \- std::iswupper
+
+.SH Synopsis
+   Defined in header <cwctype>
+   int iswupper( std::wint_t ch );
+
+   Checks if the given wide character is an uppercase letter, i.e. one of
+   ABCDEFGHIJKLMNOPQRSTUVWXYZ or any uppercase letter specific to the current locale.
+
+   If the value of ch is neither representable as a wchar_t nor equal to the value of
+   the macro WEOF, the behavior is undefined.
+
+.SH Parameters
+
+   ch - wide character
+
+.SH Return value
+
+   Non-zero value if the wide character is an uppercase letter, zero otherwise.
+
+.SH Notes
+
+   ISO 30112 specifies which Unicode characters are include in POSIX upper category.
+
+.SH Example
+
+
+// Run this code
+
+ #include <clocale>
+ #include <cwctype>
+ #include <iostream>
+
+ int main()
+ {
+     const wchar_t c = L'\\u053d'; // Armenian capital letter xeh ('Խ')
+
+     std::cout << std::hex << std::showbase << std::boolalpha;
+     std::cout << "in the default locale, iswupper("
+               << static_cast<std::wint_t>(c) << ") = "
+               << static_cast<bool>(std::iswupper(c)) << '\\n';
+
+     std::setlocale(LC_ALL, "en_US.utf8");
+     std::cout << "in Unicode locale, iswupper("
+               << static_cast<std::wint_t>(c) << ") = "
+               << static_cast<bool>(std::iswupper(c)) << '\\n';
+ }
+
+.SH Output:
+
+ in the default locale, iswupper(0x53d) = false
+ in Unicode locale, iswupper(0x53d) = true
+
+.SH See also
+
+   isupper(std::locale) checks if a character is classified as uppercase by a locale
+                        \fI(function template)\fP
+   isupper              checks if a character is an uppercase character
+                        \fI(function)\fP
+   C documentation for
+   iswupper
+
+        ASCII values            characters    iscntrl  isprint  isspace  isblank  isgraph  ispunct  isalnum  isalpha  isupper  islower  isdigit  isxdigit
+decimal hexadecimal   octal                   iswcntrl iswprint iswspace iswblank iswgraph iswpunct iswalnum iswalpha iswupper iswlower iswdigit iswxdigit
+0–8     \\x0–\\x8     \\0–\\10    control codes   ≠0       0        0        0        0        0        0        0        0        0        0        0
+                              (NUL, etc.)
+9       \\x9         \\11       tab (\\t)        ≠0       0        ≠0       ≠0       0        0        0        0        0        0        0        0
+                              whitespaces
+10–13   \\xA–\\xD     \\12–\\15   (\\n, \\v, \\f,    ≠0       0        ≠0       0        0        0        0        0        0        0        0        0
+                              \\r)
+14–31   \\xE–\\x1F    \\16–\\37   control codes   ≠0       0        0        0        0        0        0        0        0        0        0        0
+32      \\x20        \\40       space           0        ≠0       ≠0       ≠0       0        0        0        0        0        0        0        0
+33–47   \\x21–\\x2F   \\41–\\57   !"#$%&'()*+,-./ 0        ≠0       0        0        ≠0       ≠0       0        0        0        0        0        0
+48–57   \\x30–\\x39   \\60–\\71   0123456789      0        ≠0       0        0        ≠0       0        ≠0       0        0        0        ≠0       ≠0
+58–64   \\x3A–\\x40   \\72–\\100  :;<=>?@         0        ≠0       0        0        ≠0       ≠0       0        0        0        0        0        0
+65–70   \\x41–\\x46   \\101–\\106 ABCDEF          0        ≠0       0        0        ≠0       0        ≠0       ≠0       ≠0       0        0        ≠0
+71–90   \\x47–\\x5A   \\107–\\132 GHIJKLMNOP      0        ≠0       0        0        ≠0       0        ≠0       ≠0       ≠0       0        0        0
+                              QRSTUVWXYZ
+91–96   \\x5B–\\x60   \\133–\\140 [\\]^_`          0        ≠0       0        0        ≠0       ≠0       0        0        0        0        0        0
+97–102  \\x61–\\x66   \\141–\\146 abcdef          0        ≠0       0        0        ≠0       0        ≠0       ≠0       0        ≠0       0        ≠0
+103–122 \\x67–\\x7A   \\147–\\172 ghijklmnop      0        ≠0       0        0        ≠0       0        ≠0       ≠0       0        ≠0       0        0
+                              qrstuvwxyz
+123–126 \\x7B–\\x7E   \\172–\\176 {|}~            0        ≠0       0        0        ≠0       ≠0       0        0        0        0        0        0
+127     \\x7F        \\177      backspace       ≠0       0        0        0        0        0        0        0        0        0        0        0
+                              character (DEL)

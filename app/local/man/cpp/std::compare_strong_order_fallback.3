@@ -1,0 +1,62 @@
+.TH std::compare_strong_order_fallback 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::compare_strong_order_fallback \- std::compare_strong_order_fallback
+
+.SH Synopsis
+   Defined in header <compare>
+   inline namespace /* unspecified */ {
+
+       inline constexpr /* unspecified */                                 \fI(since C++20)\fP
+           compare_strong_order_fallback = /* unspecified */;
+
+   }
+   Call signature
+   template< class T, class U >
+
+       requires /* see below */
+   constexpr std::strong_ordering                                         \fI(since C++20)\fP
+
+       compare_strong_order_fallback( T&& t, U&& u ) noexcept(/* see
+   below */);
+
+   Performs three-way comparison on subexpressions t and u and produces a result of
+   type std::strong_ordering, even if the operator <=> is unavailable.
+
+   If std::decay_t<T> and std::decay_t<U> are the same type,
+   std::compare_strong_order_fallback(t, u) is expression-equivalent to:
+
+     * std::strong_order(t, u), if it is a well-formed expression;
+     * otherwise, t == u ? std::strong_ordering::equal :
+       t < u  ? std::strong_ordering::less :
+                std::strong_ordering::greater
+
+   if the expressions t == u and t < u are both well-formed and each of decltype(t ==
+   u) and decltype(t < u) models boolean-testable, except that t and u are evaluated
+   only once.
+
+   In all other cases, std::compare_strong_order_fallback(t, u) is ill-formed, which
+   can result in substitution failure when it appears in the immediate context of a
+   template instantiation.
+
+.SH Example
+
+    This section is incomplete
+    Reason: no example
+
+   Defect reports
+
+   The following behavior-changing defect reports were applied retroactively to
+   previously published C++ standards.
+
+      DR     Applied to         Behavior as published              Correct behavior
+   LWG 2114  C++20      the fallback mechanism only required   constraints strengthened
+   (P2167R3)            return types to be convertible to bool
+
+.SH See also
+
+   strong_order performs 3-way comparison and produces a result of type
+   (C++20)      std::strong_ordering
+                (customization point object)
+
+.SH Category:
+     * Todo no example

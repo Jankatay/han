@@ -1,0 +1,65 @@
+.TH std::compare_partial_order_fallback 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::compare_partial_order_fallback \- std::compare_partial_order_fallback
+
+.SH Synopsis
+   Defined in header <compare>
+   inline namespace /* unspecified */ {
+
+       inline constexpr /* unspecified */                                 \fI(since C++20)\fP
+           compare_partial_order_fallback = /* unspecified */;
+
+   }
+   Call signature
+   template< class T, class U >
+
+       requires /* see below */
+   constexpr std::partial_ordering                                        \fI(since C++20)\fP
+
+       compare_partial_order_fallback( T&& t, U&& u ) noexcept(/* see
+   below */);
+
+   Performs three-way comparison on subexpressions t and u and produces a result of
+   type std::partial_ordering, even if the operator <=> is unavailable.
+
+   If std::decay_t<T> and std::decay_t<U>> are the same type,
+   std::compare_partial_order_fallback(t, u) is expression-equivalent to:
+
+     * std::partial_order(t, u), if it is a well-formed expression;
+     * otherwise, t == u ? std::partial_ordering::equivalent :
+       t < u  ? std::partial_ordering::less :
+       u < t  ? std::partial_ordering::greater :
+                std::partial_ordering::unordered
+
+   if the expressions t == u, t < u and u < t are all well-formed and each of
+   decltype(t == u) and decltype(t < u) models boolean-testable, except that t and u
+   are evaluated only once.
+
+   In all other cases, std::compare_partial_order_fallback(t, u) is ill-formed, which
+   can result in substitution failure when it appears in the immediate context of a
+   template instantiation.
+
+.SH Example
+
+    This section is incomplete
+    Reason: no example
+
+   Defect reports
+
+   The following behavior-changing defect reports were applied retroactively to
+   previously published C++ standards.
+
+      DR     Applied to         Behavior as published              Correct behavior
+   LWG 2114  C++20      the fallback mechanism only required   constraints strengthened
+   (P2167R3)            return types to be convertible to bool
+   LWG 3465  C++20      the fallback mechanism did not require required
+                        u < t to be well-formed
+
+.SH See also
+
+   partial_order performs 3-way comparison and produces a result of type
+   (C++20)       std::partial_ordering
+                 (customization point object)
+
+.SH Category:
+     * Todo no example

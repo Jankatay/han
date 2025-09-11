@@ -1,0 +1,49 @@
+.TH std::equal_to 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::equal_to \- std::equal_to
+
+.SH Synopsis
+   Defined in header <functional>
+   template<>                      \fI(since C++14)\fP
+   class equal_to<void>;
+
+   std::equal_to<void> is a specialization of std::equal_to with parameter and return
+   type deduced.
+
+.SH Member functions
+
+   operator() tests if the two arguments compare equal
+              \fI(public member function)\fP
+
+std::equal_to<void>::operator()
+
+   template< class T, class U >
+
+   constexpr auto operator()( T&& lhs, U&& rhs ) const
+
+       -> decltype(std::forward<T>(lhs) == std::forward<U>(rhs));
+
+   Returns the result of equality comparison between lhs and rhs.
+
+.SH Parameters
+
+   lhs, rhs - values to compare
+
+.SH Return value
+
+   std::forward<T>(lhs) == std::forward<U>(rhs).
+
+.SH Example
+
+
+// Run this code
+
+ #include <functional>
+
+ int main()
+ {
+     constexpr int a = 0, b = 8;
+     std::equal_to<> equal{};
+     static_assert(equal(a, a));
+     static_assert(!equal(a, b));
+ }

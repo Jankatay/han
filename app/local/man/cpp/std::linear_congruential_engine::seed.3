@@ -1,0 +1,29 @@
+.TH std::linear_congruential_engine::seed 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::linear_congruential_engine::seed \- std::linear_congruential_engine::seed
+
+.SH Synopsis
+   void seed( result_type value = default_seed ); \fB(1)\fP \fI(since C++11)\fP
+   template< class SeedSeq >                      \fB(2)\fP \fI(since C++11)\fP
+   void seed( SeedSeq& seq );
+
+   Sets the state of the random-number engine.
+
+   1) Right after the state is set, *this == std::linear_congruential_engine(value) is
+   true.
+   2) Right after the state is set, *this == std::linear_congruential_engine(seq) is
+   true.
+
+.SH Parameters
+
+   value - seed value to use to set the state
+   seq   - seed sequence to use to set the state
+
+.SH Exceptions
+
+   Throws nothing.
+
+.SH Complexity
+
+   1) Same as std::linear_congruential_engine(value).
+   2) Same as std::linear_congruential_engine(seq).

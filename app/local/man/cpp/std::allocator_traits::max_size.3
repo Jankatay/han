@@ -1,0 +1,39 @@
+.TH std::allocator_traits::max_size 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::allocator_traits::max_size \- std::allocator_traits::max_size
+
+.SH Synopsis
+   Defined in header <memory>
+   static size_type max_size( const Alloc& a ) noexcept;            \fI(since C++11)\fP
+                                                                    \fI(until C++20)\fP
+   static constexpr size_type max_size( const Alloc& a ) noexcept;  \fI(since C++20)\fP
+
+   If possible, obtains the maximum theoretically possible allocation size from the
+   allocator a, by calling a.max_size().
+
+   If the above is not possible (e.g. Alloc does not have the member function
+   max_size()), then returns std::numeric_limits<size_type>::max() /
+   sizeof(value_type).
+
+.SH Parameters
+
+   a - allocator to detect
+
+.SH Return value
+
+   Theoretical maximum allocation size.
+
+   Defect reports
+
+   The following behavior-changing defect reports were applied retroactively to
+   previously published C++ standards.
+
+      DR    Applied to            Behavior as published              Correct behavior
+   LWG 2162 C++11      max_size was not requied to be noexcept      required
+   LWG 2466 C++11      theoretical maximum allocation size in bytes size in elements is
+                       was returned as fallback                     returned
+
+.SH See also
+
+   max_size      returns the largest supported allocation size
+   \fI(until C++20)\fP \fI(public member function of std::allocator<T>)\fP

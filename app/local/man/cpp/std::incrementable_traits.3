@@ -1,0 +1,64 @@
+.TH std::incrementable_traits 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::incrementable_traits \- std::incrementable_traits
+
+.SH Synopsis
+   Defined in header <iterator>
+   template< class I, class S >
+
+   struct incrementable_traits<std::common_iterator<I, S>> {  \fI(since C++20)\fP
+       using difference_type = std::iter_difference_t<I>;
+
+   };
+
+   Provides the uniform interface to the associated difference type of the
+   std::common_iterator type.
+
+.SH Example
+
+
+// Run this code
+
+ #include <cstddef>
+ #include <iterator>
+ #include <list>
+ #include <string>
+ #include <type_traits>
+
+ int main()
+ {
+     using CI = std::common_iterator<
+                    std::counted_iterator<int*>,
+                    std::default_sentinel_t>;
+     using CL = std::common_iterator<
+                    std::counted_iterator<std::list<std::string>::iterator>,
+                    std::default_sentinel_t>;
+     CL cl{std::default_sentinel};
+     static_assert(
+         std::same_as<std::incrementable_traits<CI>::difference_type, std::ptrdiff_t> &&
+         std::same_as<std::incrementable_traits<CL>::difference_type, std::ptrdiff_t> &&
+         std::same_as<std::incrementable_traits<decltype(cl)>::difference_type,
+                      std::ptrdiff_t>);
+ }
+
+.SH See also
+
+   incrementable_traits                       computes the difference type of a
+   (C++20)                                    weakly_incrementable type
+                                              \fI(class template)\fP
+   iter_value_t
+   iter_reference_t
+   iter_const_reference_t
+   iter_difference_t
+   iter_rvalue_reference_t                    computes the associated types of an
+   iter_common_reference_t                    iterator
+   (C++20)                                    (alias template)
+   (C++20)
+   (C++23)
+   (C++20)
+   (C++20)
+   (C++20)
+                                              provides uniform interface to the
+   std::iterator_traits<std::common_iterator> properties of the std::common_iterator
+   (C++20)                                    type
+                                              \fI(class template specialization)\fP

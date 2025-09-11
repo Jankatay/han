@@ -1,0 +1,72 @@
+.TH std::bidirectional_iterator 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::bidirectional_iterator \- std::bidirectional_iterator
+
+.SH Synopsis
+   Defined in header <iterator>
+   template< class I >
+
+       concept bidirectional_iterator =
+           std::forward_iterator<I> &&
+           std::derived_from</*ITER_CONCEPT*/<I>,
+   std::bidirectional_iterator_tag> &&                                    \fI(since C++20)\fP
+           requires(I i) {
+               { --i } -> std::same_as<I&>;
+               { i-- } -> std::same_as<I>;
+
+           };
+
+   The concept bidirectional_iterator refines forward_iterator by adding the ability to
+   move an iterator backward.
+
+.SH Notes
+
+   Unlike the LegacyBidirectionalIterator requirements, the bidirectional_iterator
+   concept does not require dereference to return an lvalue.
+
+.SH Example
+
+   A minimum bidirectional iterator.
+
+ #include <cstddef>
+ #include <iterator>
+
+ struct SimpleBidiIterator
+ {
+     using difference_type = std::ptrdiff_t;
+     using value_type = int;
+
+     int operator*() const;
+
+     SimpleBidiIterator& operator++();
+
+     SimpleBidiIterator operator++(int)
+     {
+         auto tmp = *this;
+         ++*this;
+         return tmp;
+     }
+
+     SimpleBidiIterator& operator--();
+
+     SimpleBidiIterator operator--(int)
+     {
+         auto tmp = *this;
+         --*this;
+         return tmp;
+     }
+
+     bool operator==(const SimpleBidiIterator&) const;
+ };
+
+ static_assert(std::bidirectional_iterator<SimpleBidiIterator>);
+
+.SH See also
+
+   forward_iterator       specifies that an input_iterator is a forward iterator,
+   (C++20)                supporting equality comparison and multi-pass
+                          (concept)
+                          specifies that a bidirectional_iterator is a random-access
+   random_access_iterator iterator, supporting advancement in constant time and
+   (C++20)                subscripting
+                          (concept)

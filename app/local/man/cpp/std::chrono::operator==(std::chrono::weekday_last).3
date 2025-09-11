@@ -1,0 +1,38 @@
+.TH std::chrono::operator==(std::chrono::weekday_last) 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::chrono::operator==(std::chrono::weekday_last) \- std::chrono::operator==(std::chrono::weekday_last)
+
+.SH Synopsis
+   Defined in header <chrono>
+   constexpr bool operator==( const std::chrono::weekday_last& x,
+                              const std::chrono::weekday_last& y )        \fI(since C++20)\fP
+   noexcept;
+
+   Compares the two weekday_last values x and y.
+
+   The != operator is synthesized from operator==.
+
+.SH Return value
+
+   x.weekday() == y.weekday()
+
+.SH Example
+
+
+// Run this code
+
+ #include <chrono>
+ #include <iostream>
+
+ int main()
+ {
+     constexpr auto wdl1{std::chrono::Tuesday[std::chrono::last]};
+     constexpr std::chrono::weekday_last wdl2{std::chrono::weekday(2)};
+     std::cout << std::boolalpha
+               << (wdl1 == wdl2) << ' '
+               << (wdl1 == std::chrono::Wednesday[std::chrono::last]) << '\\n';
+ }
+
+.SH Output:
+
+ true false

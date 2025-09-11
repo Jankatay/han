@@ -1,0 +1,54 @@
+.TH std::input_iterator 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::input_iterator \- std::input_iterator
+
+.SH Synopsis
+   Defined in header <iterator>
+   template< class I >
+
+       concept input_iterator =
+           std::input_or_output_iterator<I> &&
+           std::indirectly_readable<I> &&                                 \fI(since C++20)\fP
+           requires { typename /*ITER_CONCEPT*/<I>; } &&
+
+           std::derived_from</*ITER_CONCEPT*/<I>,
+   std::input_iterator_tag>;
+
+   The input_iterator concept is a refinement of input_or_output_iterator, adding the
+   requirement that the referenced values can be read (via indirectly_readable) and the
+   requirement that the iterator concept tag be present.
+
+.SH Notes
+
+   Unlike the LegacyInputIterator requirements, the input_iterator concept does not
+   require equality_comparable, since input iterators are typically compared with
+   sentinels.
+
+.SH Example
+
+   A minimum input iterator.
+
+ #include <cstddef>
+ #include <iterator>
+
+ struct SimpleInputIterator
+ {
+     using difference_type = std::ptrdiff_t;
+     using value_type = int;
+
+     int operator*() const;
+
+     SimpleInputIterator& operator++();
+     void operator++(int) { ++*this; }
+ };
+
+ static_assert(std::input_iterator<SimpleInputIterator>);
+
+.SH See also
+
+   input_or_output_iterator specifies that objects of a type can be incremented and
+   (C++20)                  dereferenced
+                            (concept)
+   forward_iterator         specifies that an input_iterator is a forward iterator,
+   (C++20)                  supporting equality comparison and multi-pass
+                            (concept)

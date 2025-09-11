@@ -1,0 +1,67 @@
+.TH std::owner_less 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::owner_less \- std::owner_less
+
+.SH Synopsis
+   Defined in header <memory>
+   template<>                  \fI(since C++17)\fP
+   struct owner_less<void>;
+
+   std::owner_less<void> is a specialization of std::owner_less with parameter types
+   deduced.
+
+.SH Member functions
+
+   operator() compares its arguments using owner-based semantics
+              \fI(function)\fP
+
+std::owner_less<void>::operator()
+
+   template< class T, class U >
+
+   bool operator()( const std::shared_ptr<T>& lhs,                   \fI(since C++17)\fP
+
+                    const std::shared_ptr<U>& rhs ) const noexcept;
+   template< class T, class U >
+
+   bool operator()( const std::shared_ptr<T>& lhs,                   \fI(since C++17)\fP
+
+                    const std::weak_ptr<U>& rhs ) const noexcept;
+   template< class T, class U >
+
+   bool operator()( const std::weak_ptr<T>& lhs,                     \fI(since C++17)\fP
+
+                    const std::shared_ptr<U>& rhs ) const noexcept;
+   template< class T, class U >
+
+   bool operator()( const std::weak_ptr<T>& lhs,                     \fI(since C++17)\fP
+
+                    const std::weak_ptr<U>& rhs ) const noexcept;
+
+   Compares lhs and rhs using owner-based semantics. Effectively calls
+   lhs.owner_before(rhs).
+
+   The ordering is strict weak ordering relation.
+
+   lhs and rhs are equivalent only if they are both empty or share ownership.
+
+.SH Parameters
+
+   lhs, rhs - shared-ownership pointers to compare
+
+.SH Return value
+
+   true if lhs is less than rhs as determined by the owner-based ordering.
+
+.SH Notes
+
+         Feature-test macro         Value    Std                 Feature
+   __cpp_lib_transparent_operators 201510L \fI(C++17)\fP Transparent std::owner_less
+                                                   (std::owner_less<void>)
+
+.SH See also
+
+   owner_before provides owner-based ordering of shared pointers
+                \fI(public member function of std::shared_ptr<T>)\fP
+   owner_before provides owner-based ordering of weak pointers
+                \fI(public member function of std::weak_ptr<T>)\fP

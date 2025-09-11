@@ -1,0 +1,57 @@
+.TH std::totally_ordered,std::totally_ordered_with 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::totally_ordered,std::totally_ordered_with \- std::totally_ordered,std::totally_ordered_with
+
+.SH Synopsis
+   Defined in header <concepts>
+   template< class T >
+
+   concept totally_ordered =                                     \fB(1)\fP \fI(since C++20)\fP
+
+       std::equality_comparable<T> && __PartiallyOrderedWith<T,
+   T>;
+   template< class T, class U >
+
+   concept totally_ordered_with =
+       std::totally_ordered<T> &&
+       std::totally_ordered<U> &&
+       std::equality_comparable_with<T, U> &&                    \fB(2)\fP \fI(since C++20)\fP
+       std::totally_ordered<
+           std::common_reference_t<
+               const std::remove_reference_t<T>&,
+               const std::remove_reference_t<U>&>> &&
+
+       __PartiallyOrderedWith<T, U>;
+   template< class T, class U >
+
+   concept __PartiallyOrderedWith =
+       requires(const std::remove_reference_t<T>& t,
+                const std::remove_reference_t<U>& u) {
+           { t <  u } -> boolean-testable;
+           { t >  u } -> boolean-testable;
+           { t <= u } -> boolean-testable;                       \fB(3)\fP (exposition only*)
+           { t >= u } -> boolean-testable;
+           { u <  t } -> boolean-testable;
+           { u >  t } -> boolean-testable;
+           { u <= t } -> boolean-testable;
+           { u >= t } -> boolean-testable;
+
+       };
+
+   1) The concept std::totally_ordered specifies that the comparison operators
+   ==,!=,<,>,<=,>= on a type yield results consistent with a strict total order on the
+   type.
+   2) The concept std::totally_ordered_with specifies that the comparison operators
+   ==,!=,<,>,<=,>= on (possibly mixed) T and U operands yield results consistent with a
+   strict total order. Comparing mixed operands yields results equivalent to comparing
+   the operands converted to their common type.
+   3) The exposition-only concept __PartiallyOrderedWith specifies that a value of type
+   T and a value of type U can be compared in a partial order with each other (in
+   either order) using <, >, <=, and >=, and the results of the comparisons are
+   consistent.
+
+.SH See also
+
+   three_way_comparable      specifies that operator <=> produces consistent result on
+   three_way_comparable_with given types
+   (C++20)                   (concept)

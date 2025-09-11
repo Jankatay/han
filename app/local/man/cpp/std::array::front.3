@@ -1,0 +1,56 @@
+.TH std::array::front 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::array::front \- std::array::front
+
+.SH Synopsis
+   reference front();             \fB(1)\fP \fI(since C++11)\fP
+                                      (constexpr since C++17)
+   const_reference front() const; \fB(2)\fP \fI(since C++11)\fP
+                                      (constexpr since C++14)
+
+   Returns a reference to the first element in the container.
+
+   Calling front on an empty container causes undefined behavior.
+
+.SH Parameters
+
+   \fI(none)\fP
+
+.SH Return value
+
+   Reference to the first element.
+
+.SH Complexity
+
+   Constant.
+
+.SH Notes
+
+   For a container c, the expression c.front() is equivalent to *c.begin().
+
+.SH Example
+
+   The following code uses front to display the first element of a std::array<char, 6>:
+
+
+// Run this code
+
+ #include <array>
+ #include <iostream>
+
+ int main()
+ {
+     std::array<char, 6> letters{'a', 'b', 'c', 'd', 'e', 'f'};
+
+     if (!letters.empty())
+         std::cout << "The first character is '" << letters.front() << "'.\\n";
+ }
+
+.SH Output:
+
+ The first character is 'a'.
+
+.SH See also
+
+   back access the last element
+        \fI(public member function)\fP

@@ -1,0 +1,62 @@
+.TH std::ratio_not_equal 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::ratio_not_equal \- std::ratio_not_equal
+
+.SH Synopsis
+   Defined in header <ratio>
+   template< class R1, class R2 >
+   struct ratio_not_equal : std::integral_constant<bool, /* see below     \fI(since C++11)\fP
+   */> { };
+
+   If the ratios R1 and R2 are not equal, provides the member constant value equal
+   true. Otherwise, value is false.
+
+.SH Member constants
+
+   value    true if R1::num != R2::num || R1::den != R2::den, false otherwise
+   \fB[static]\fP \fI(public static member constant)\fP
+
+.SH Member functions
+
+   operator bool converts the object to bool, returns value
+                 \fI(public member function)\fP
+   operator()    returns value
+   \fI(C++14)\fP       \fI(public member function)\fP
+
+.SH Member types
+
+   Type       Definition
+   value_type bool
+   type       std::integral_constant<bool, value>
+
+.SH Possible implementation
+
+   template< class R1, class R2 >
+   struct ratio_not_equal : std::integral_constant <
+                                 bool,
+                                 !std::ratio_equal<R1, R2>
+                            > {};
+
+.SH Example
+
+
+// Run this code
+
+ #include <iostream>
+ #include <ratio>
+
+ int main()
+ {
+     std::ratio_not_equal_v<std::ratio<2, 3>, std::ratio<1, 3>>
+         ? std::cout << "2/3 != 1/3\\n"
+         : std::cout << "2/3 == 1/3\\n";
+ }
+
+.SH Output:
+
+ 2/3 != 1/3
+
+.SH See also
+
+   ratio_equal compares two ratio objects for equality at compile-time
+   \fI(C++11)\fP     \fI(class template)\fP

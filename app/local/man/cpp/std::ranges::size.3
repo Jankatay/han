@@ -1,0 +1,118 @@
+.TH std::ranges::size 3 "2024.06.10" "http://cppreference.com" "C++ Standard Libary"
+.SH NAME
+std::ranges::size \- std::ranges::size
+
+.SH Synopsis
+   Defined in header <ranges>
+   Defined in header <iterator>
+   inline namespace /* unspecified */ {
+                                                        \fI(since C++20)\fP
+       inline constexpr auto size = /* unspecified */;  (customization point object)
+
+   }
+   Call signature
+   template< class T >
+
+       requires /* see below */                         \fI(since C++20)\fP
+
+   constexpr auto size( T&& t );
+
+   Calculates the number of elements in t in constant time.
+
+   A call to ranges::size is expression-equivalent to:
+
+    1. decay-copy(std::extent_v<T>)
+       (until C++23)
+       auto(std::extent_v<T>)
+       (since C++23), if T is an array type with a known bound.
+    2. Otherwise,
+       decay-copy(t.size())
+       (until C++23)
+       auto(t.size())
+       (since C++23), if ranges::disable_sized_range<std::remove_cv_t<T>> is false, and
+       that expression is valid and has an integer-like type.
+    3. Otherwise,
+       decay-copy(size(t))
+       (until C++23)
+       auto(size(t))
+       (since C++23), if ranges::disable_sized_range<std::remove_cv_t<T>> is false, and
+       the converted expression is valid and has an integer-like type, where the
+       meaning of size is established as if by performing argument-dependent lookup
+       only.
+    4. Otherwise, /* to-unsigned-like */(ranges::end(t) - ranges::begin(t)), if T
+       models ranges::forward_range and ranges::sentinel_t<T> models
+       std::sized_sentinel_for<ranges::iterator_t<T>>,
+
+       where /* to-unsigned-like */ denotes an explicit conversion to an
+       unsigned-integer-like type.
+
+   In all other cases, a call to ranges::size is ill-formed, which can result in
+   substitution failure when ranges::size(t) appears in the immediate context of a
+   template instantiation.
+
+.SH Notes
+
+   Whenever ranges::size(e) is valid for an expression e, the return type is
+   integer-like.
+
+   The C++20 standard requires that if the underlying size function call returns a
+   prvalue, the return value is move-constructed from the materialized temporary
+   object. All implementations directly return the prvalue instead. The requirement is
+   corrected by the post-C++20 proposal P0849R8 to match the implementations.
+
+   The expression ranges::distance(e) can also be used to determine the size of a range
+   e. Unlike ranges::size(e), ranges::distance(e) works even if e is an unsized range,
+   at the cost of having linear complexity in that case.
+
+.SH Example
+
+
+// Run this code
+
+ #include <iostream>
+ #include <ranges>
+ #include <type_traits>
+ #include <vector>
+
+ int main()
+ {
+     auto v = std::vector<int>{};
+     std::cout << "ranges::size(v) == " << std::ranges::size(v) << '\\n';
+
+     auto il = {7};     // std::initializer_list
+     std::cout << "ranges::size(il) == " << std::ranges::size(il) << '\\n';
+
+     int array[]{4, 5}; // array has a known bound
+     std::cout << "ranges::size(array) == " << std::ranges::size(array) << '\\n';
+
+     static_assert(std::is_signed_v<decltype(std::ranges::size(v))> == false);
+ }
+
+.SH Output:
+
+ ranges::size(v) == 0
+ ranges::size(il) == 1
+ ranges::size(array) == 2
+
+   Defect reports
+
+   The following behavior-changing defect reports were applied retroactively to
+   previously published C++ standards.
+
+     DR    Applied to           Behavior as published               Correct behavior
+   P2602R2 C++20      there's machinery to prohibit certain      removed such machinery
+                      non-member size found by ADL
+
+.SH See also
+
+   ranges::ssize       returns a signed integer equal to the size of a range
+   (C++20)             (customization point object)
+   ranges::sized_range specifies that a range knows its size in constant time
+   (C++20)             (concept)
+   ranges::distance    returns the distance between an iterator and a sentinel, or
+   (C++20)             between the beginning and end of a range
+                       (niebloid)
+   size
+   ssize               returns the size of a container or array
+   \fI(C++17)\fP             \fI(function template)\fP
+   (C++20)
